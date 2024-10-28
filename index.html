@@ -1,26 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUSCAMINARIANA</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Buscaminas</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
-    <H1>BUSCAMINARIANA</H1>
-    <div id = "config">
-        <label for="rows">Filas (mínimo 5):</label>
-        <input type="number" id="rows" min="5" value="5">
 
-        <label for="cols">Columnas (mínimo 5):</label>
-        <input type="number" id="cols" min="5" value="5">
-
-        <label for="mines">Minas:</label>
-        <input type="number" id="mines" value="10">
-
-        <button>id="starGame">Iniciar Juego</button>
+<body oncontextmenu="return false">
+  <div id="contenedor">
+    <h1>Buscaminas - Juego de Estrategia</h1> <!-- Título en el fondo de la página -->
+    
+    <div id="juego-nuevo">
+      Juego Nuevo
     </div>
-    <div>id="board"></div>
-    <script src="script.js"></script>
+
+    <div id="Ajustes">
+      Ajustes
+    </div>
+
+    <table id="tablero">
+    </table>
+
+    <script>
+      let filas = 10;
+      let columnas = 10;
+      let minas = 20;
+      let tablero = [];
+      
+      let primerMovimiento = true;
+      let juegoTerminado = false;
+
+      function nuevoJuego() {
+        juegoTerminado = false;
+        primerMovimiento = true;
+        tablero = generarTablero(filas, columnas, minas);
+        actualizarTablero();
+      }
+
+      function generarTablero(filas, columnas, minas) {
+        let tablero = [];
+        // Inicializar tablero vacío
+        for (let i = 0; i < filas; i++) {
+          tablero[i] = [];
+          for (let j = 0; j < columnas; j++) {
+            tablero[i][j] = {
+              valor: 0,
+              descubierto: false,
+              marcado: false,
+              mina: false
+            };
+          }
+        }
+        // Colocar minas aleatoriamente
+        let minasColocadas = 0;
+        while (minasColocadas < minas) {
+          let x = Math.floor(Math.random() * filas);
+          let y = Math.floor(Math.random() * columnas);
+          if (!tablero[x][y].mina) {
+            tablero[x][y].mina = true;
+            minasColocadas++;
+          }
+        }
+        // Calcular valores de las celdas
+        for (let i = 0; i < filas; i++) {
+          for (let j = 0; j < columnas; j++) {
+            if (!tablero[i][j].mina) {
+              let count = 0;
+              for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                  let nx = i + dx;
+                  let ny = j + dy;
+                  if (nx >= 0 && nx < filas && ny >= 0 && ny < columnas && tablero[nx][ny].mina) {
+                    count++;
+                  }
+                }
+              }
+              tablero[i][j].valor = count;
+            }
+          }
+        }
+        return tablero;
+      }
+
+      function actualizarTablero() {
+        let tablaHTML = document.getElementById("tablero");
+        tablaHTML.innerHTML = "";
+        for (let i = 0; i < filas; i++) {
+          let fila = document.createElement("tr");
+          for (let j = 0; j < columnas; j++) {
+            let celda = document.createElement("td");
+            celda.dataset.x = i;
+            celda.dataset.y = j;
+            celda.addEventListener("click", descubrirCelda);
+            celda.addEventListener("contextmenu", marcarCelda);
+            if (tablero[i][j].descubierto) {
+              if (tablero[i][j].mina) {
+                celda.innerHTML = '<i class="fas fa-bomb"></i>';
+              } else if (tablero[i][j].valor > 0) {
+                celda.textContent = tablero[i][j].valor;
+              }
+            } else if (tablero[i][j].marcado) {
+              celda.textContent = "!";
+              celda.classList.add("bandera");
+            }
+            fila.appendChild(celda);
+          }
+          tablaHTML.appendChild(fila);
+        }
+      }
+
+      function descubrirCelda(event) {
+        if (juegoTerminado) {
+          return;
+        }
+
+        let x = parseInt(event.target.dataset.x);
+        let y = parseInt(event.target.dataset.y);
+        if (!tablero[x][y].descubierto && !tablero[x][y].marcado) {
+          if (primerMovimiento) {
+            // Si es el primer movimiento y la casilla es una mina, reubicar la mina
+            while (tablero[x][y].mina) {
+              nuevoJuego();
+            }
+            primerMovimiento = false;
+          }
+          tablero[x][y].descubierto = true;
+          if (tablero[x][y].mina) {
+            // Mostrar todas las minas y marcar la casilla actual
+            for (let i = 0; i < filas; i++) {
+              for (let j = 0; j < columnas; j++) {
+                if (tablero[i][j].mina) {
+                  tablero[i][j].descubierto = true;
+                }
+              }
+            }
+            tablero[x][y].descubierto = "boom";
+            juegoTerminado = true;
+          } else {
+            if (tablero[x][y].valor === 0) {
+              // Descubrir celdas adyacentes si el valor es 0
+              for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                  let nx = x + dx;
+                  let ny = y + dy;
+                  if (nx >= 0 && nx < filas && ny >= 0 && ny < columnas && !tablero[nx][ny].descubierto) {
+                    descubrirCelda({
+                      target: {
+                        dataset: {
+                          x: nx,
+                          y: ny
+                        }
+                      }
+                    });
+                  }
+                }
+              }
+            }
+          }
+          actualizarTablero();
+        }
+      }
+
+      function marcarCelda(event) {
+        event.preventDefault(); // Evitar menú contextual
+        let x = parseInt(event.target.dataset.x);
+        let y = parseInt(event.target.dataset.y);
+        if (!tablero[x][y].descubierto) {
+          tablero[x][y].marcado = !tablero[x][y].marcado;
+          actualizarTablero();
+        }
+      }
+
+      document.getElementById("juego-nuevo").addEventListener("click", nuevoJuego);
+      document.getElementById("Ajustes").addEventListener("click", () => {
+        filas = prompt("Número de filas:");
+        columnas = prompt("Número de columnas:");
+        minas = prompt("Número de minas:");
+        nuevoJuego();
+      });
+
+      nuevoJuego();
+
+    </script>
+  </div>
 </body>
+
 </html>
