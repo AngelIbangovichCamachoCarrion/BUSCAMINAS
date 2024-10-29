@@ -6,8 +6,13 @@ body {
     background-color: #282c34;
     color: #05e047;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+/* Contenedor del modal de inicio */
 .modal-inicio {
     display: flex;
     align-items: center;
@@ -18,6 +23,7 @@ body {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
+/* Contenido del modal */
 .modal-inicio-contenido {
     background-color: #333842;
     color: white;
@@ -29,10 +35,13 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* Título */
 .modal-inicio-contenido h2 {
     color: #61dafb;
+    font-size: 1.8em;
 }
 
+/* Etiquetas */
 .modal-inicio-contenido label {
     display: block;
     margin: 10px 0;
@@ -40,6 +49,7 @@ body {
     font-size: 1.1em;
 }
 
+/* Campo de entrada */
 .modal-inicio-contenido input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -48,7 +58,9 @@ body {
     border: 1px solid #666;
     background-color: #444;
     color: #fff;
+    font-size: 1em;
 }
+
 
 .modal-inicio-contenido button {
     padding: 10px 20px;
@@ -65,3 +77,19 @@ body {
     background-color: #04b637;
 }
 
+
+@media (max-width: 480px) {
+    .modal-inicio-contenido {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .modal-inicio-contenido h2 {
+        font-size: 1.5em;
+    }
+    
+    .modal-inicio-contenido button {
+        padding: 10px 16px;
+        font-size: 1em;
+    }
+}

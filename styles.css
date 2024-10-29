@@ -10,14 +10,14 @@ body {
 
 h1 {
     color: #61dafb;
-    font-size: 2.5em;
+    font-size: 2.2em;
     margin-top: 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
 
 #contenedor {
     margin: 20px auto;
-    width: 70%;
+    width: 90%;
     max-width: 600px;
     text-align: center;
     background: #333842;
@@ -27,17 +27,19 @@ h1 {
     animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Tabla del tablero */
 table {
     border-collapse: collapse;
     margin: 20px auto;
+    width: 100%;
 }
 
 td {
     border: 1px solid #6a6a6a;
-    width: 40px;
-    height: 40px;
+    width: 2.5em;
+    height: 2.5em;
     text-align: center;
-    font-size: 18px;
+    font-size: 1em;
     color: #333;
     background-color: #d2d2d2;
     cursor: pointer;
@@ -93,15 +95,6 @@ td:hover {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
-
-#nombre-jugador {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
 
 /* Modal de Ajustes */
 .modal {
@@ -234,5 +227,24 @@ td:hover {
     to {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    #contenedor {
+        width: 95%;
+        padding: 15px;
+    }
+    td {
+        width: 2em;
+        height: 2em;
+        font-size: 0.9em;
+    }
+    .modal-contenido {
+        width: 90%;
     }
 }
