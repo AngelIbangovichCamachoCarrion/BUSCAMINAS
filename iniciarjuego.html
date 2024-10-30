@@ -1,69 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-    <title>BUSCAMINARIARIANA</title>
+    <title>BUSCAMINARIANA</title>
     <link rel="shortcut icon" href="descarga.jpeg" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body oncontextm    enu="return false">
+<body oncontextmenu="return false">
     <div id="contenedor">
         <h1>BUSCAMINARIANA - Juego de Estrategia</h1>
         <div id="nombre-jugador">
             <label for="nombre-input">Nombre del jugador:</label>
-            <input type="text" id="nombre-input" placeholder="Escribe tu nombre">
-            <button id="guardar-nombre">Guardar Nombre</button>
-        </div>        
+            <div class="input-container">
+                <input type="text" id="nombre-input" placeholder="Escribe tu nombre">
+                <button id="guardar-nombre">Guardar Nombre</button>
+            </div>
+        </div>
         <div id="juego-nuevo">Juego Nuevo</div>
-        <div id="Ajustes">Ajustes</div>
+        
+        <!-- Contenedor para Ajustes y Dificultad -->
+        <div class="ajustes-dificultad-container">
+            <div id="Ajustes">Ajustes</div>
+            <h2 class="titulo-dificultad">Dificultad</h2>
+            <div id="dificultad-container" class="dificultad-container">
+                <button class="dificultad" data-dificultad="facil">Fácil</button>
+                <button class="dificultad" data-dificultad="medio">Medio</button>
+                <button class="dificultad" data-dificultad="dificil">Difícil</button>
+                <button class="dificultad" data-dificultad="hardcore">Hardcore</button>
+                <button class="dificultad" data-dificultad="leyenda">Leyenda</button>
+            </div>
+        </div>
 
         <!-- Modal para ajustes -->
-<div id="ajustes-modal" class="modal">
-    <div class="modal-contenido">
-        <span id="cerrar-ajustes" class="cerrar">&times;</span>
-        <h2>Ajustes</h2>
-        
-        <!-- Contenedor para opciones de ajustes -->
-        <div class="ajustes-opciones">
-            <label for="filas">Número de Filas:</label>
-            <input type="number" id="filas" value="10" min="5" max="20">
-            
-            <label for="columnas">Número de Columnas:</label>
-            <input type="number" id="columnas" value="10" min="5" max="20">
-            
-            <label for="minas">Número de Minas:</label>
-            <input type="number" id="minas" value="20" min="1">
-            
-            <label for="dificultad">Seleccionar Dificultad:</label>
-            <select id="dificultad">
-                <option value="facil">Fácil (8x8, 10 minas)</option>
-                <option value="medio">Medio (12x12, 20 minas)</option>
-                <option value="dificil">Difícil (16x16, 40 minas)</option>
-                <option value="muy-dificil">Muy Difícil (20x20, 80 minas)</option>
-            </select>
-        </div>
-        
-        <button id="guardar-ajustes" class="boton-guardar">Guardar Ajustes</button>
-    </div>
-</div>
-
-
-        <!-- Modal para mensajes -->
-        <div id="mensaje-modal" class="modal">
+        <div id="ajustes-modal" class="modal">
             <div class="modal-contenido">
-                <span id="cerrar" class="cerrar">&times;</span>
-                <p id="mensaje-texto"></p>
+                <span id="cerrar-ajustes" class="cerrar">&times;</span>
+                <h2>Ajustes</h2>
+                
+                <!-- Contenedor para opciones de ajustes -->
+                <div class="ajustes-opciones">
+                    <label for="filas">Número de Filas:</label>
+                    <input type="number" id="filas" value="10" min="5" max="20">
+                    
+                    <label for="columnas">Número de Columnas:</label>
+                    <input type="number" id="columnas" value="10" min="5" max="20">
+                    
+                    <label for="minas">Número de Minas:</label>
+                    <input type="number" id="minas" value="20" min="1">
+                </div>
+
+                <button id="guardar-ajustes" class="boton-guardar">Guardar Ajustes</button>
             </div>
         </div>
 
         <table id="tablero"></table>
-
     </div>
+
     <script src="script.js"></script>
 </body>
 

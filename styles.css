@@ -8,6 +8,7 @@ body {
     padding: 0;
 }
 
+/* Títulos */
 h1 {
     color: #61dafb;
     font-size: 2.2em;
@@ -15,11 +16,19 @@ h1 {
     animation: fadeIn 1.5s ease-in-out;
 }
 
+.titulo-dificultad {
+    color: #61dafb;
+    font-size: 1.5em;
+    margin: 15px 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Contenedor principal */
 #contenedor {
     margin: 20px auto;
     width: 90%;
     max-width: 600px;
-    text-align: center;
     background: #333842;
     padding: 20px;
     border-radius: 10px;
@@ -27,7 +36,46 @@ h1 {
     animation: fadeIn 1.5s ease-in-out;
 }
 
-/* Tabla del tablero */
+/* Estilo de los botones */
+.dificultad,
+#juego-nuevo,
+#Ajustes {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dificultad:hover,
+#juego-nuevo:hover,
+#Ajustes:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Campo de entrada para el nombre */
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#nombre-input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilos de la tabla del tablero */
 table {
     border-collapse: collapse;
     margin: 20px auto;
@@ -40,14 +88,10 @@ td {
     height: 2.5em;
     text-align: center;
     font-size: 1em;
-    color: #333;
     background-color: #d2d2d2;
+    color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.celda-descubierta {
-    background-color: rgb(4, 86, 114); /* Color para celdas descubiertas */
 }
 
 td:hover {
@@ -55,9 +99,16 @@ td:hover {
     transform: scale(1.1);
 }
 
+.celda-presionada {
+    background-color: #0400ff;
+    color: rgb(39, 1, 1);
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
 .boom {
-    background-color: #e40000 !important;
-    color: white;
+    background-color: red !important;
+    color: white !important;
     font-weight: bold;
     animation: shake 0.3s;
 }
@@ -67,59 +118,27 @@ td:hover {
     font-weight: bold;
 }
 
-#juego-nuevo,
-#Ajustes {
-    padding: 10px 15px;
-    margin: 15px 5px;
-    cursor: pointer;
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-#juego-nuevo:hover,
-#Ajustes:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-}
-
-#tablero {
-    background-color: #ddd;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-/* Modal de Ajustes */
+/* Estilos para el modal */
 .modal {
-    display: none; /* Ocultar por defecto */
+    display: none; /* Oculto por defecto */
     position: fixed;
-    z-index: 100;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    z-index: 1000;
 }
 
 .modal-contenido {
-    background-color: #333842;
-    color: white;
+    background-color: #fff;
+    margin: 10% auto;
     padding: 20px;
-    border-radius: 8px;
+    border: 1px solid #888;
     width: 80%;
-    max-width: 400px;
-    text-align: center;
-    animation: zoomIn 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cerrar {
@@ -130,9 +149,13 @@ td:hover {
     cursor: pointer;
 }
 
-.cerrar:hover {
-    color: #fff;
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
+
 
 .modal h2 {
     font-size: 1.8em;
@@ -191,60 +214,29 @@ td:hover {
         transform: translate(-1px, -2px) rotate(-1deg);
     }
     20% {
-        transform: translate(-3px, 0px) rotate(1deg);
+        transform: translate(-2px, 0px) rotate(1deg);
     }
     30% {
-        transform: translate(3px, 2px) rotate(0deg);
+        transform: translate(2px, 2px) rotate(0deg);
     }
     40% {
-        transform: translate(1px, -1px) rotate(1deg);
+        transform: translate(0px, 0px) rotate(1deg);
     }
     50% {
-        transform: translate(-1px, 2px) rotate(-1deg);
-    }
-    60% {
-        transform: translate(-3px, 1px) rotate(0deg);
-    }
-    70% {
-        transform: translate(3px, 1px) rotate(-1deg);
-    }
-    80% {
-        transform: translate(-1px, -1px) rotate(1deg);
-    }
-    90% {
-        transform: translate(1px, 2px) rotate(0deg);
+        transform: translate(-1px, -1px) rotate(-1deg);
     }
     100% {
-        transform: translate(1px, -2px) rotate(-1deg);
+        transform: translate(0px, 0px) rotate(0deg);
     }
 }
 
 @keyframes zoomIn {
-    from {
-        transform: scale(0.8);
+    0% {
+        transform: scale(0);
         opacity: 0;
     }
-    to {
+    100% {
         transform: scale(1);
         opacity: 1;
-    }
-}
-
-/* Media Queries para pantallas pequeñas */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 1.8em;
-    }
-    #contenedor {
-        width: 95%;
-        padding: 15px;
-    }
-    td {
-        width: 2em;
-        height: 2em;
-        font-size: 0.9em;
-    }
-    .modal-contenido {
-        width: 90%;
     }
 }
